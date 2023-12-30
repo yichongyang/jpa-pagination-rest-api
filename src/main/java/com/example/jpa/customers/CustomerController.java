@@ -138,4 +138,17 @@ public class CustomerController {
         //Since we return a String message here, we use the ResponseEntity to provide the message.
         return ResponseEntity.status(HttpStatus.OK).body(customers);
     }
+
+    @GetMapping(path = "/customer/lastName/{lastName}/search/firstName/{firstName}")
+    public ResponseEntity<List<Customer>> add(@PathVariable String lastName, @PathVariable String firstName) {
+        List<Customer> customers = customerService.findByLastName(lastName);
+        List<Customer> customersWithFirstName = new ArrayList<Customer>();
+        for (Customer customer : customers) {
+            if (customer.getFirstName().equals(firstName)) {
+                customersWithFirstName.add(customer);
+            }
+        }
+        //Since we return a String message here, we use the ResponseEntity to provide the message.
+        return ResponseEntity.status(HttpStatus.OK).body(customersWithFirstName);
+    }
 }

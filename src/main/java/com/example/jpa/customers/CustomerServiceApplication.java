@@ -1,0 +1,59 @@
+package com.example.jpa.customers;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.context.annotation.Bean;
+
+@SpringBootApplication
+@EnableCaching
+public class CustomerServiceApplication {
+
+    private static final Logger log = LoggerFactory.getLogger(CustomerServiceApplication.class);
+
+    public static void main(String[] args) {
+        SpringApplication.run(CustomerServiceApplication.class);
+    }
+
+    @Bean
+    public CommandLineRunner initCustomers(CustomerRepository repository) {
+        return (args) -> {
+            // save a few customers
+            repository.save(new Customer("Jackson", "Yang"));
+            repository.save(new Customer("Chloe", "Wang"));
+            repository.save(new Customer("Timothy", "Su"));
+            repository.save(new Customer("David", "Palmer"));
+            repository.save(new Customer("Michelle", "Zhang"));
+
+            // fetch all customers
+            log.info("Customers found with findAll():");
+            log.info("-------------------------------");
+            for (Customer customer : repository.findAll()) {
+                log.info(customer.toString());
+            }
+            log.info("");
+
+            // fetch an individual customer by ID
+            Customer customer = repository.findById(1L);
+            log.info("Customer found with findById(1L):");
+            log.info("--------------------------------");
+            log.info(customer.toString());
+            log.info("");
+
+            // fetch customers by last name
+            log.info("Customer found with findByLastName('Bauer'):");
+            log.info("--------------------------------------------");
+            repository.findByLastName("Bauer").forEach(bauer -> {
+                log.info(bauer.toString());
+            });
+
+            for (Customer bauer : repository.findByLastName("Bauer")) {
+              log.info(bauer.toString());
+            }
+            log.info("");
+        };
+    }
+}

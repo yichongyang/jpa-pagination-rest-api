@@ -1,0 +1,36 @@
+spring:
+  data:
+    mongodb:
+      host: localhost
+      port: '27017'
+      database: test
+  
+  datasource:
+    url: 'jdbc:h2:mem:testdb'
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    hibernate:
+      use-new-id-generator-mappings: false
+  
+  h2:
+    console:
+      enabled: true
+      path: /h2console/
+  
+  cache:
+    cache-names: 'customers,customer/id,customer/lastName'
+    caffeine:
+      spec: maximumSize=500,expireAfterAccess=600s
+
+server:
+  port: '443'
+  ssl:
+    key-store: ./cert/keystore.p12
+    key-store-password: springboot
+    keyStoreType: PKCS12
+    keyAlias: tomcat

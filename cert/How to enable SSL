@@ -1,0 +1,41 @@
+1) Generate a Self-Signed Certificate
+
+To create a self-signed certificate, Java Run Time environment comes bundled with certificate management utility key tool. This utility tool is used to create a Self-Signed certificate. It is shown in the code given here −
+
+keytool -genkey -alias tomcat -storetype PKCS12 -keyalg RSA -keysize 2048 -keystore keystore.p12 -validity 3650
+Enter keystore password: springboot
+   Re-enter new password: springboot
+   What is your first and last name?
+   [Unknown]: Yichong Yang
+   What is the name of your organizational unit?
+   [Unknown]:
+   What is the name of your organization?
+   [Unknown]:
+   What is the name of your City or Locality?
+   [Unknown]:
+   What is the name of your State or Province?
+   [Unknown]:
+   What is the two-letter country code for this unit?
+   [Unknown]:
+   Is CN = Unknown, OU=Unknown, O = Unknown, L = Unknown, ST = Unknown, C = Unknown correct?
+   [no]: yes
+This code will generate a PKCS12 keystore file named as keystore.p12 and the certificate alias name is tomcat.
+
+
+2) Configure HTTPS for Spring Boot
+
+We need to provide the server port as 443, key-store file path, key-store-password, key-store-type and key alias name into the application.properties file. Observe the code given here −
+server.port: 443
+server.ssl.key-store: <your cert path>/keystore.p12
+server.ssl.key-store-password: springboot
+server.ssl.keyStoreType: PKCS12
+server.ssl.keyAlias: tomcat
+
+You can use the following code if you are using YAML properties use below application.yml −
+server:
+   port: 443
+   ssl:
+      key-store: keystore.p12
+      key-store-password: springboot
+      keyStoreType: PKCS12
+      keyAlias: tomcat
